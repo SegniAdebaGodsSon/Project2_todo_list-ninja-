@@ -1,6 +1,6 @@
 const addForm = document.querySelector('.add');
 const list = document.querySelector('.todos');
-
+const search = document.querySelector('.search input');
 
 // ==================================== INSERT ====================================
 
@@ -44,3 +44,33 @@ list.addEventListener( 'click', e => {
 
 
 // ==================================== FILTERING ====================================
+// children method - returns HTMLcollection, cannot use array methods on it
+// has to be converted into an array
+
+//**************************
+// TEXT CONTENT - we used it on the li, which doesn't have a text inside is ..
+//                so it checks it's childs textContent.
+//**************************
+
+
+const filterTodos = (term) => {
+
+
+    Array.from(list.children)
+    // we filter out the one's which don't match
+    .filter( todo => !todo.textContent.toLocaleLowerCase().includes(term.toLocaleLowerCase()))
+    .forEach( todo => todo.classList.add('filtered'));
+
+    Array.from(list.children)
+    // we filter out the one's which that match
+    .filter( todo => todo.textContent.toLocaleLowerCase().includes(term.toLocaleLowerCase()))
+    .forEach( todo => todo.classList.remove('filtered'));
+
+};
+
+
+search.addEventListener('keyup', () => {
+    const term = search.value.trim();
+    filterTodos(term);
+
+});
